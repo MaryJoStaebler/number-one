@@ -14,7 +14,7 @@
     "copy:web": "npm run copy:web:overlay",
     "copy:assets:overlays": "copyfiles assets/**/* dist/web/overlays/wwwroot/",
     "copy:assets": "npm run copy:assets:overlays",
-    "dev": "nodemon -L -e js,ts,htm,env,scss,json,vue --watch src --exec \"npm run build && npm run start\"",
+    "dev": "npx nodemon -L -e js,ts,htm,env,scss,json,vue --watch src --exec \"npm run build && npm run start\"",
     "test": "mocha -r ts-node/register src/**/*spec.ts"
   },
   "repository": {

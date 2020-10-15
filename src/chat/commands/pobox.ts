@@ -17,7 +17,7 @@ export function POBox(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `You can send candles, swag, art supplies (for the girls) to our PO Box: Bald. Bearded. Builder. PO Box 795, Odenville, AL 35120`
+  const message = `You can send candles, swag, art supplies (for me) to our PO Box: PO Box 7324, Bellevue, WA 98008`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

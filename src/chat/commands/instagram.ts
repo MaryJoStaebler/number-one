@@ -17,7 +17,7 @@ export function Instagram(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `Watch pre-stream & post-stream videos and more. Follow us on Instagram at https://www.instagram.com/baldbeardedbuilder`
+  const message = `Follow me on Instagram at https://www.instagram.com/maryjostaebler`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

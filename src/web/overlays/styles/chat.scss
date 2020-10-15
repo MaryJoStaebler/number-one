@@ -19,7 +19,6 @@
     display: flex;
     align-items: center;
     
-    box-shadow: -0.5em 0.6em 1em -0.4em $darkblue;
 
     &.hide {
       box-shadow: none;
@@ -32,11 +31,6 @@
       display: flex;
       flex-direction: row-reverse;
       width: 400px;
-      background-color: $darkblue;
-      
-      border-top: 5px solid;
-      border-image-source: $gradient;
-      border-image-slice: 1;
       
       opacity: 0;
       animation: fade 1s forwards;
@@ -46,22 +40,25 @@
         width: 340px;
         word-wrap: break-word;
         white-space: pre-line;
+        border-radius: 25px 25px 0 25px; 
+        background-color: $secondary_color;
 
         display: flex;
         flex-direction: column;
         
         font-size: 1.2em;
         color: $white;
+        margin-right:10px;
 
         span {
-          color: $neonpink;
+          color: $primary_color;
         }
         
         .name {
           font-family: 'Roboto';
           font-size: .8em;
           font-weight: bold;
-          background: $gradient;
+          background: $white;
           background-clip: text;
           margin-top: 10px;
           -webkit-background-clip: text;
@@ -70,29 +67,40 @@
       }
   
       .user {
-        width: 60px;
+        width: 40px;
+        height:40px;
+        border-radius:50%;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-position-y: bottom;
         background-color: $white;
+        align-self:flex-end;
       }    
     }
     
     &.mod {
       .panel {
-        background-color: $lightgray;
         .bubble {
-          color: $purple;
+          background-color: $primary_color;
+          color: $dark_color;
+
+          .name {
+            color:$white;
+          }
         }
       }
     }
  
     &.vip {
       .panel {
-        background-color: $white;
         .bubble {
-          color: $darkblue;
+          background-color: $third_color;
+          color: $white;
+          
+          .name {
+            color:$white;
+          }
         }
       }
     }

@@ -1,11 +1,12 @@
 import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 import { ShouldThrottle } from '../shouldThrottle'
+
 /**
- * Sends a message to chat with a link to the Family Friendly Live Twitch team
+ * Sends a message to chat with info on BBB Instagram
  * @param onCommandEvent 
  */
-export function FFL(onCommandEvent: OnCommandEvent) {
+export function Website(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +17,7 @@ export function FFL(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `Check out the entire Family Friendly Live team and give them all a follow at https://familyfriendly.live`
+  const message = `Check out my website at https://www.maryjostaebler.com`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

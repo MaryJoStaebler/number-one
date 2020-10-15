@@ -17,7 +17,7 @@ export function Blog(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `Mike's blog can be found at https://baldbeardedbuilder.com`
+  const message = `MJ's blog can be found at https://maryjostaebler.com/blog`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
