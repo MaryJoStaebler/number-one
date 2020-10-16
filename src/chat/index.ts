@@ -1,4 +1,4 @@
-import ComfyJS, { EmoteSet, Extra, UserFlags } from 'comfy.js'
+import ComfyJS, { EmoteSet, OnCheerExtra, OnCheerFlags, OnCommandExtra, OnMessageExtra, OnMessageFlags, OnResubExtra, OnSubExtra, OnSubGiftExtra, OnSubMysteryGiftExtra } from 'comfy.js'
 import { SubMethods } from 'tmi.js'
 
 import { log, LogLevel } from '../common'
@@ -8,7 +8,6 @@ import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
 import { CommandMonitor } from './commandMonitor'
 import sanitizeHtml from 'sanitize-html'
-import { Emotes } from '../models/Emotes'
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
@@ -48,10 +47,14 @@ export class ChatMonitor {
    * Initializes chat to connect to Twitch and begin listening
    */
   public init(): void {
-    ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName)
+    ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName, (globalThis.loglevel === "development"))
   }
 
-  private emit(event: Events, payload: any) {
+  public close(): void {
+    ComfyJS.Disconnect()
+  }
+
+  private emit(event: Events, payload: unknown) {
     // if (this.currentStream) {
     EventBus.eventEmitter.emit(event, payload)
     // }
@@ -69,7 +72,7 @@ export class ChatMonitor {
    * @param self 
    * @param extra 
    */
-  private async onChat(user: string, message: string, flags: UserFlags, self: boolean, extra: Extra) {
+  private async onChat(user: string, message: string, flags: OnMessageFlags, self: boolean, extra: OnMessageExtra) {
     log(LogLevel.Info, `onChat: ${user}: ${message}`)
 
     user = user.toLocaleLowerCase();
@@ -174,7 +177,7 @@ export class ChatMonitor {
    * @param flags 
    * @param extra 
    */
-  private async onCheer(user: string, message: string, bits: number, flags: UserFlags, extra: Extra) {
+  private async onCheer(user: string, message: string, bits: number, flags: OnCheerFlags, extra: OnCheerExtra) {
     log(LogLevel.Info, `onCheer: ${user} cheered ${bits} bits`)
     let userInfo: User
 
@@ -198,7 +201,7 @@ export class ChatMonitor {
    * @param flags 
    * @param extra 
    */
-  private async onCommand(user: string, command: string, message: string, flags: UserFlags, extra: Extra) {
+  private async onCommand(user: string, command: string, message: string, flags: OnMessageFlags, extra: OnCommandExtra) {
     log(LogLevel.Info, `onCommand: ${user} sent the ${command} command`)
     let userInfo: User
 
@@ -224,8 +227,8 @@ export class ChatMonitor {
       }
     }
 
-    // Only respond to commands if we're streaming
-    if (userInfo && this.currentStream) {
+    // Only respond to commands if we're streaming, or debugging
+    if (userInfo && (this.currentStream || process.env.NODE_ENV === "development")) {
       this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra, this.currentStream))
     }
   }
@@ -279,7 +282,7 @@ export class ChatMonitor {
    * @param isFirstConnect 
    */
   private onConnected(address: string, port: number, isFirstConnect: boolean): void {
-    log(LogLevel.Info, `onConnected: ${address}`)
+    log(LogLevel.Info, `onConnected: ${address}:${port}`)
   }
 
   /**
@@ -318,7 +321,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private async onSub(user: string, message: string, subTierInfo: SubMethods, extra: Extra) {
+  private async onSub(user: string, message: string, subTierInfo: SubMethods, extra: OnSubExtra) {
     log(LogLevel.Info, `onSub: ${user} subbed`)
     let userInfo: User
 
@@ -343,7 +346,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private async onSubGift(gifterUser: string, streakMonths: number, recipientUser: string, senderCount: number, subTierInfo: SubMethods, extra: Extra) {
+  private async onSubGift(gifterUser: string, streakMonths: number, recipientUser: string, senderCount: number, subTierInfo: SubMethods, extra: OnSubGiftExtra) {
     log(LogLevel.Info, `onSubGift: ${gifterUser} gifted a sub to ${recipientUser}`)
     let userInfo: User
     let gifterInfo: User
@@ -376,7 +379,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private async onResub(user: string, message: string, streakMonths: number, cumulativeMonths: number, subTierInfo: SubMethods, extra: Extra) {
+  private async onResub(user: string, message: string, streakMonths: number, cumulativeMonths: number, subTierInfo: SubMethods, extra: OnResubExtra) {
     log(LogLevel.Info, `onResub: ${user} resubbed for ${cumulativeMonths} total months`)
     let userInfo: User
 
@@ -400,7 +403,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: Extra): void {
+  private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: OnSubMysteryGiftExtra): void {
     log(LogLevel.Info, `onSubMysteryGift: ${gifterUser} gifted ${numbOfSubs}`)
   }
 

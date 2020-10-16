@@ -1,10 +1,4 @@
-# Secrets
-.nexmo-app
-private.key
-
-# compiled css
-src/web/overlays/wwwroot/styles
-src/web/video/wwwroot/styles
+package-lock.json
 
 # dotenv environment variables file
 .env
