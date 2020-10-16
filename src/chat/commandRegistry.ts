@@ -15,6 +15,7 @@ import { Project } from "./commands/project";
 import { Stop } from "./commands/stop";
 import { Theme } from "./commands/theme";
 import { Website } from "./commands/website";
+import { Wiki } from "./commands/wiki";
 import { Command } from "./models/Command";
 
 export abstract class CommandRegistry {
@@ -38,6 +39,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('stop', Stop))
     this.commands.push(new Command('theme', Theme))
     this.commands.push(new Command('website', Website))
+    this.commands.push(new Command('wiki', Wiki))
   }
 
   public static getCommand(commandName: string): Command | undefined {
