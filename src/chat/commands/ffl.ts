@@ -1,12 +1,11 @@
-import { OnSayEvent, OnCommandEvent } from "../../models"
+import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 import { ShouldThrottle } from '../shouldThrottle'
-
 /**
- * Sends a message to chat re: what we're working on
+ * Sends a message to chat with a link to the Family Friendly Live Twitch team
  * @param onCommandEvent 
  */
-export function Project(onCommandEvent: OnCommandEvent) {
+export function FFL(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 
@@ -17,11 +16,7 @@ export function Project(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const user = onCommandEvent.user
-  const stream = onCommandEvent.stream
-  const username = user.display_name || user.login
-
-  const message = `@${username}, today's topic is: ${stream.title}`
+  const message = `Check out the entire Family Friendly Live team and give them all a follow at https://familyfriendly.live`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
