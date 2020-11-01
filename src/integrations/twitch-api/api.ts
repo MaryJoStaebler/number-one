@@ -36,7 +36,7 @@ export class TwitchAPI {
   private async registerFollowWebhook(): Promise<void> {
     try {
       const payload = {
-        "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
+        "hub.callback": (process.env.HOST === "443" ? 'https://' : 'http://')+`${process.env.HOST}/webhooks/follow`,
         "hub.mode": "subscribe",
         "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
         "hub.lease_seconds": 172800,
@@ -58,7 +58,7 @@ export class TwitchAPI {
   private async registerStreamWebhook(): Promise<void> {
     try {
       const payload = {
-        "hub.callback": `http://${process.env.HOST}/webhooks/stream`,
+        "hub.callback": (process.env.HOST === "443" ? 'https://' : 'http://')+`http://${process.env.HOST}/webhooks/stream`,
         "hub.mode": "subscribe",
         "hub.topic": `https://api.twitch.tv/helix/streams?user_id=${this.config.twitchChannelId}`,
         "hub.lease_seconds": 172800,
